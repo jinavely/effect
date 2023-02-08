@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>select</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <form name="frm" method="POST">
+      <select name="selectNumber">
+        <option value="code000">선택</option>
+        <option value="code001">1</option>
+        <option value="code002">2</option>
+      </select>
+    </form>
+
+    <script>
+      var selectbox = document.frm.selectNumber;
+
+      //옵션 추가
+      var objOption = document.createElement("option");
+      objOption.text = "3";
+      objOption.value = "code003";
+      selectbox.options.add(objOption);
+
+      //선택된 option의 index 값
+      var idx = selectbox.selectedIndex;
+
+      //특정 option t선택
+      selectbox[3].selected = true;
+
+      //opton 개수
+      var len = selectbox.length;
+
+      //선택된 option value와 text 구하기
+      //여기서 idx는 위에서 구했던 선택된 option의 index값
+      var val = selectbox.options[idx].value;
+      var txt = selectbox.options[idx].text;
+
+      //selectbox disabled/enable
+      selectbox.disabled = true;
+      selectbox.disabled = false;
+
+      //i번 째 인덱스 옵션 삭제
+      //여기서 i는 selectbox의 option 의 index값
+      selectbox.option[i] = null;		//방법1
+      selectbox.remove(i);			//방법2
+
+      //option 전부 삭제
+      selectbox.options.length = 0;
+    </script>
+  </body>
+</html>

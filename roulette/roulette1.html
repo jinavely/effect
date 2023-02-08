@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rullet</title>
+    <style>
+      @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+      * {
+        font-family: Pretendard;
+      }
+
+      body {
+        background: #f7f8fc;
+      }
+
+      canvas {
+        transition: 3s ease-out;
+      }
+
+      button {
+        position: relative;
+        z-index: 10;
+        background: #febf00;
+        margin-top: 1rem;
+        padding: 0.8rem 1.8rem;
+        border: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+        border-radius: 5px;
+        transition: 0.2s;
+        cursor: pointer;
+      }
+
+      button:active {
+        background: #444;
+        color: #f9f9f9;
+      }
+      button:disabled {
+        cursor: no-drop;
+      }
+      div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+      }
+      .canvas-container {
+        width: 380px;
+        margin-top: 50px;
+      }
+      .canvas-container::before {
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 50px;
+        border-radius: 5px;
+        background: #000;
+        top: -25px;
+        left: calc(50% - 5px);
+        z-index: 5;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="canvas-container">
+        <canvas width="380" height="380"></canvas>
+      </div>
+      <button class="btn-turn" onclick="winProduct()">룰렛 돌리기</button>
+    </div>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext(`2d`);
+
+      // 룰렛에 들어갈 항목
+      const products = [
+        { name: '떡볶이', color: '#dc0936' },
+        { name: '돈가스', color: '#e6471d' },
+        { name: '초밥', color: '#f7a416' },
+        { name: '피자', color: '#efe61f' },
+        { name: '냉면', color: '#60b236' },
+        { name: '치킨', color: '#209b6c' },
+        { name: '족발', color: '#3f297e' },
+        { name: '삼겹살', color: '#be107f' },
+      ];
+      const [cw, ch] = [canvas.width / 2, canvas.height / 2];
+      const rad = Math.PI / (products.length / 2);
+      const speed = 3;
+      let once = false;
+      let count = 0;
+      let reqId;
+
+      // 상품 BG
+      const rouletteBg = () => {
+        for (let i = 0; i < products.length; i++) {
+          ctx.beginPath();
+          ctx.fillStyle = products[i].color;
+          ctx.moveTo(cw, ch);
+          ctx.arc(cw, ch, cw, rad * (i - 1), rad * i);
+          ctx.fill();
+          ctx.closePath();
+        }
+      };
+
+      // 상품 텍스트
+      const rouletteText = () => {
+        ctx.fillStyle = '#fff';
+        ctx.font = '18px Pretendard';
+        ctx.textAlign = 'center';
+
+        for (let i = 0; i < products.length; i++) {
+          const angle = rad * i + rad / 2;
+          ctx.save();
+
+          ctx.translate(
+            cw + Math.cos(angle) * (cw - 50),
+            ch + Math.sin(angle) * (ch - 50)
+          );
+          ctx.rotate(angle + Math.PI / 2);
+
+          products[i].name.split(' ').forEach((text, j) => {
+            ctx.fillText(text, 0, 20 * j);
+          });
+          ctx.restore();
+        }
+      };
+
+      // animation reset
+      const resetAni = () => {
+        canvas.style.transform = `initial`;
+        canvas.style.transition = `initial`;
+      };
+
+      // animation rotate
+      const rotateAni = (rotate) => {
+        canvas.style.transform = `rotate(${rotate}deg)`;
+        canvas.style.transition = `${speed}s ease-out`;
+      };
+
+      // turn animation
+      const rotateTurn = (callback) => {
+        resetAni();
+        requestAnimationFrame(() => {
+          const ran = Math.floor(Math.random() * products.length);
+          const arc = 360 / products.length;
+          const rotate =
+            -(ran * arc) +
+            7200 +
+            arc * (products.length - products.length / 4 - 0.5);
+          rotateAni(rotate);
+
+          // 상품 일정 후 표시
+          const aniCount = () => {
+            count++;
+            reqId = requestAnimationFrame(aniCount);
+
+            count === speed * 60 ? callback(ran) : null;
+            count > speed * 60 ? cancelAnimationFrame(reqId) : null;
+          };
+          aniCount();
+        });
+        count = 0;
+      };
+
+      // 한번 실행
+      const end = () => {
+        once = true;
+        document.querySelector('.btn-turn').remove();
+      };
+
+      // 당첨
+      const winProduct = () => {
+        if (!once) {
+          end();
+          rotateTurn((ran) => {
+            alert(`오늘의 야식은?! ${products[ran].name} 어떠신가요?`);
+          });
+        }
+      };
+
+      const render = () => {
+        rouletteBg();
+        rouletteText();
+      };
+
+      render();
+    </script>
+  </body>
+</html>

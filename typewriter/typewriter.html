@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>typewriter</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        font-family: 'Courier New', Courier, monospace;
+      }
+      .hero {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        background: #000;
+        color: #fff;
+      }
+      h1,
+      h2 {
+        font-size: 4rem;
+      }
+      .typewriter {
+        position: relative;
+      }
+      .typewriter::after {
+        content: '';
+        width: 1px;
+        height: 100%;
+        border-right: 5px solid #fff;
+        margin-left: 0.5rem;
+        animation: blink 1s infinite;
+      }
+      @keyframes blink {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="hero">
+      <h1 class="title">Code Student if for &ZeroWidthSpace;</h1>
+      <h2 class="typewriter"></h2>
+    </div>
+
+    <script>
+      // class TypeWriteEffect {
+      //   constructor(words) {
+      //     this.words = words;
+      //     this.wordCount = 0;
+      //     this.erCount = 0;
+      //     this.currentText = '';
+      //     this.currentWord = '';
+      //     this.timeOut = 200;
+      //     this.isDeleting = false;
+      //   }
+      // }
+      // const typeWriteEffect = new TypeWriteEffect([
+      //   'Designers',
+      //   'Developers',
+      //   'Publishers',
+      //   'Students',
+      //   'Professionals',
+      // ]);
+      const typeWriterEffect = () => {
+        const words = [
+          'Designers',
+          'Developers',
+          'Publishers',
+          'Students',
+          'Professionals',
+        ];
+        let wordCount = 0;
+        let letterCount = 0;
+        let currentText = '';
+        let currentWord = '';
+
+        let timeOut = 200;
+        let isDeleting = false;
+
+        function type() {
+          if (wordCount === words.length) {
+            wordCount = 0;
+          }
+
+          currentWord = words[wordCount];
+
+          if (isDeleting) {
+            currentText = currentWord.slice(0, --letterCount);
+          } else {
+            currentText = currentWord.slice(0, ++letterCount);
+          }
+
+          document.querySelector('.typewriter').textContent = currentText;
+
+          timeOut = isDeleting ? 100 : 200;
+
+          if (!isDeleting && currentText.length === currentWord.length) {
+            timeOut = 2000;
+            isDeleting = true;
+          } else if (isDeleting && currentText.length === 0) {
+            timeOut = 1000;
+            isDeleting = false;
+            wordCount++;
+          }
+          setTimeout(type, timeOut);
+        }
+        type();
+      };
+
+      typeWriterEffect();
+    </script>
+  </body>
+</html>

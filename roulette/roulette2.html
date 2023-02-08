@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>rullet</title>
+    <style>
+      @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+
+      * {
+        font-family: Pretendard;
+      }
+
+      body {
+        background: #f7f8fc;
+      }
+
+      canvas {
+        transition: 3s ease-out;
+      }
+
+      div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        position: relative;
+      }
+      .canvas-container {
+        width: 498px;
+        padding: 0;
+        background: #badafe url('images/roulette_bg.png') no-repeat 0 20px;
+        border: 1px solid #b9bec7;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div class="canvas-container">
+        <canvas width="498" height="498"></canvas>
+      </div>
+    </div>
+
+    <script>
+      const canvas = document.querySelector('canvas');
+      const ctx = canvas.getContext(`2d`);
+
+      // 룰렛에 들어갈 항목
+      const products = [
+        { name: '1천원 중복쿠폰', color: '#dc0936' },
+        { name: '누구나 30P', color: '#e6471d' },
+        { name: '20%할인쿠폰', color: '#f7a416' },
+        { name: '누구나 50P', color: '#efe61f' },
+        { name: '누구나 100P', color: '#60b236' },
+        { name: '무료배송쿠폰', color: '#209b6c' },
+      ];
+      const { width: cw, height: ch } = canvas;
+      const rad = Math.PI / (products.length / 2);
+      const speed = 3;
+      let once = false;
+      let count = 0;
+      let reqId;
+      let rouletteImag;
+
+      // roulette
+      const loadImage = () => {
+        pinImage = new Image();
+        pinImage.src = 'images/roulette_pin.png';
+
+        buttonImage = new Image();
+        buttonImage.src = 'images/roulette_button.png';
+
+        rouletteImag = new Image();
+        rouletteImag.src = 'images/roulette.png';
+      };
+
+      const render = () => {
+        ctx.drawImage(rouletteImag, 0, 0, cw, ch);
+        ctx.drawImage(pinImage, cw / 2 - 23, 0, 47, 80);
+        ctx.drawImage(
+          buttonImage,
+          0,
+          0,
+          150,
+          150,
+          cw / 2 - 75,
+          ch / 2 - 50,
+          150,
+          150
+        );
+      };
+
+      const clickHandler = (e) => {
+        const x = e.layerX;
+        const y = e.layerY;
+
+        if (
+          x > cw / 2 - 37 &&
+          x < cw / 2 + 97 &&
+          y > ch / 2 - 20 &&
+          y < ch / 2 + 115
+        ) {
+          rotateTurn();
+        }
+      };
+
+      // animation reset
+      const resetAni = () => {
+        canvas.style.transform = `initial`;
+        canvas.style.transition = `initial`;
+      };
+
+      // animation rotate
+      const rotateAni = (rotate) => {
+        canvas.style.transform = `rotate(${rotate}deg)`;
+        canvas.style.transition = `${speed}s ease-out`;
+      };
+
+      const rotateTurn = (callback) => {
+        resetAni();
+        requestAnimationFrame(() => {
+          const ran = Math.floor(Math.random() * products.length);
+          const arc = 360 / products.length;
+          const rotate =
+            -(ran * arc) +
+            7200 +
+            arc * (products.length - products.length / 4 - 0.5);
+          rotateAni(rotate);
+
+          // 상품 일정 후 표시
+          const aniCount = () => {
+            count++;
+            reqId = requestAnimationFrame(aniCount);
+
+            // count === speed * 60 ? callback(ran) : null;
+            // count > speed * 60 ? cancelAnimationFrame(reqId) : null;
+          };
+          aniCount();
+        });
+        count = 0;
+      };
+
+      const main = () => {
+        render();
+        requestAnimationFrame(main);
+      };
+
+      canvas.addEventListener('click', clickHandler);
+
+      loadImage();
+      main();
+    </script>
+  </body>
+</html>

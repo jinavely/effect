@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>scratch</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        position: absolute;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="canvas-container">
+      <img width="626" height="317" id="resultImg" />
+      <canvas width="626" height="317" id="coverCanvas"></canvas>
+    </div>
+
+    <script>
+      let coverCanvas;
+      let coverImg;
+      let coverContext;
+      let isWin;
+      let lineStartX, lineStartY;
+      let resultArea;
+      let winFlag = false;
+
+      const canvas = document.getElementById('coverCanvas');
+      const isMobile = /iPhone|iPad|iPod|Android/i.test(
+        window.navigator.userAgent
+      );
+
+      const loadCover = () => {
+        coverImg = document.createElement('img');
+        coverImg.src = 'images/cover.png';
+        coverImg.addEventListener('load', startup);
+      };
+
+      const startup = () => {
+        coverCanvas = document.getElementById('coverCanvas');
+        coverContext = coverCanvas.getContext('2d', {
+          willReadFrequently: true,
+        });
+        coverContext.drawImage(coverImg, 0, 0);
+        coverContext.lineWidth = '50';
+        coverContext.lineCap = 'round';
+      };
+
+      const startDraw = () => {
+        !isMobile
+          ? coverCanvas.addEventListener('mousedown', moveDraw)
+          : coverCanvas.addEventListener('touchstart', moveDraw, false);
+
+        // resultArea = { x: 200, y: 150, width: 200, height: 40 };
+      };
+
+      const winner = () => {
+        isWin = Math.round(Math.random());
+        let resultURL =
+          isWin == 1 ? 'images/result_win.png' : 'images/result_lose.png';
+
+        document.getElementById('resultImg').src = resultURL;
+      };
+
+      const stopDraw = () => {
+        coverCanvas.removeEventListener('mousemove', draw);
+        coverCanvas.removeEventListener('mouseup', stopDraw);
+      };
+
+      const moveDraw = (event) => {
+        lineStartX = event.clientX;
+        lineStartY = event.clientY;
+        !isMobile
+          ? coverCanvas.addEventListener('mousemove', draw)
+          : coverCanvas.addEventListener('touchmove', draw, false);
+        !isMobile
+          ? coverCanvas.addEventListener('mouseup', stopDraw)
+          : coverCanvas.addEventListener('touchend', stopDraw, false);
+      };
+
+      const draw = (event) => {
+        let x = 0,
+          y = 0;
+        !isMobile
+          ? ((x = event.clientX), (y = event.clientY))
+          : ((x = event.touches[0].pageX), (y = event.touches[0].pageY));
+
+        coverContext.globalCompositeOperation = 'destination-out';
+        coverContext.beginPath();
+        coverContext.moveTo(lineStartX, lineStartY);
+        coverContext.lineTo(x, y);
+        coverContext.stroke();
+        coverContext.closePath();
+        lineStartX = x;
+        lineStartY = y;
+
+        if (!winFlag) {
+          winner();
+          end();
+        }
+
+        // if (checkClearResultArea()) {
+        //   end();
+        // }
+      };
+
+      const end = () => {
+        // stopDraw();
+        // coverCanvas.removeEventListener('mousedown', moveDraw);
+
+        let msg =
+          isWin === 1
+            ? '축하합니다!! 이벤트에 당첨됐습니다.'
+            : '아쉽지만 다음 기회를 이용해 주세요';
+        console.log(msg);
+        winFlag = true;
+        return false;
+      };
+
+      // const checkClearResultArea = () => {
+      //   let imageData = coverContext.getImageData(
+      //     resultArea.x,
+      //     resultArea.y,
+      //     resultArea.width,
+      //     resultArea.height
+      //   );
+      //   for (let i = 3, count = imageData.data.length; i < count; i += 4) {
+      //     if (imageData.data[i] !== 0) return false;
+      //   }
+      //   return true;
+      // };
+
+      const main = () => {
+        loadCover();
+        startup();
+        startDraw();
+      };
+
+      window.addEventListener('load', () => main());
+    </script>
+  </body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Sticky</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      #benefit,
+      #digital,
+      #family,
+      #life,
+      #trip,
+      #card,
+      #reaction,
+      #save {
+        height: 50vh;
+      }
+      #wrap.intro_scroll .intro_area .menu-box {
+        display: block;
+      }
+
+      .intro_area .menu-box {
+        display: none;
+        position: fixed;
+        top: 0;
+        right: 0;
+        left: 0;
+        z-index: 90;
+        background-color: #fff;
+      }
+
+      .intro_area .menu-box:after {
+        position: absolute;
+        right: 0;
+        bottom: -10px;
+        left: 0;
+        height: 10px;
+        background: linear-gradient(
+          to bottom,
+          #000 0,
+          rgba(255, 255, 255, 0) 100%
+        );
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#00ffffff', GradientType=0);
+        opacity: 0.1;
+        content: '';
+      }
+
+      .intro_area .menu_box .inner:after,
+      .intro_area .menu_box .inner:before {
+        position: absolute;
+        top: 0;
+        z-index: 1;
+        content: '';
+      }
+
+      .intro_area .menu_box .inner:before {
+        background-image: url(https://ssl.pstatic.net/static/nid/membership/sprite/m_sp_01_rw_210e6dad.png);
+        background-size: 91px 66px;
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        width: 22px;
+        height: 52px;
+        left: 0;
+      }
+
+      .intro_area .menu_box .inner:after {
+        background-image: url(https://ssl.pstatic.net/static/nid/membership/sprite/m_sp_01_rw_210e6dad.png);
+        background-size: 91px 66px;
+        background-position: -23px 0;
+        background-repeat: no-repeat;
+        width: 22px;
+        height: 52px;
+        right: 0;
+      }
+
+      .menu-list {
+        overflow-x: auto;
+        position: relative;
+        padding: 0 9px;
+        text-align: center;
+        white-space: nowrap;
+        word-break: keep-all;
+      }
+
+      .menu-list li {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .menu-list .menu {
+        display: block;
+        padding: 16px 15px 17px;
+      }
+
+      .menu-list .menu .txt {
+        font-family: NanumSquareNeo, -apple-system, BlinkMacSystemFont,
+          helvetica, 'Apple SD Gothic Neo', sans-serif;
+        font-size: 15px;
+        line-height: 18px;
+        font-weight: 500;
+        color: #bbb;
+        letter-spacing: -1px;
+      }
+
+      .menu-list .menu[aria-current='true'] {
+        position: relative;
+      }
+
+      .menu-list .menu[aria-current='true'] .txt {
+        font-weight: 700;
+        color: #111;
+      }
+
+      .menu-list .menu[aria-current='true']:after {
+        position: absolute;
+        right: 15px;
+        bottom: 0;
+        left: 15px;
+        height: 2px;
+        background-color: #111;
+        content: '';
+      }
+
+      footer {
+        height: 50vh;
+        border-top: 1px solid orange;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="wrap" class="wrap">
+      <header>
+        <div class="title_area">
+          <img src="images/people.jpg" width="100%" height="auto" alt=" " />
+        </div>
+
+        <div class="intro_area">
+          <div class="menu-box">
+            <div class="inner">
+              <ul role="menu" class="menu-list">
+                <li role="presentation">
+                  <a href="#" id="menu_benefit" class="menu">
+                    <span class="txt">멤버십 혜택</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_save" class="menu">
+                    <span class="txt">적립 혜택</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_digital" class="menu">
+                    <span class="txt">디지털콘텐츠</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_family" class="menu">
+                    <span class="txt">패밀리 계정</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_life" class="menu">
+                    <span class="txt">라이프혜택</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_trip" class="menu">
+                    <span class="txt">여행 할인</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_card" class="menu">
+                    <span class="txt">전용카드</span>
+                  </a>
+                </li>
+                <li role="presentation">
+                  <a href="#" id="menu_reaction" class="menu">
+                    <span class="txt">리얼후기</span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div id="container" class="container">
+        <!-- content -->
+        <div class="content" role="main">
+          <div id="benefit">benefit</div>
+          <div id="save">save</div>
+          <div id="digital">digital</div>
+          <div id="family">family</div>
+          <div id="life">life</div>
+          <div id="trip">trip</div>
+          <div id="card">card</div>
+          <div id="reaction">reaction</div>
+        </div>
+
+        <script type="text/javascript">
+          (() => {
+            // 전체 변수
+            const { navElem, navLinkElem, navElemHeight, getscrollY } = {
+              navElem: document.querySelector('.menu-list'),
+              navLinkElem: Array.from(
+                document.querySelectorAll('.menu-list .menu')
+              ),
+              getscrollY: () =>
+                window.scrollY ||
+                window.pageYOffset ||
+                document.body.scrollTop +
+                  ((document.documentElement &&
+                    document.documentElement.scrollTop) ||
+                    0),
+            };
+            let timerId;
+
+            const throttle = (callback, time) => {
+              if (timerId) return;
+              timerId = setTimeout(() => {
+                callback();
+                timerId = undefined;
+              }, time);
+            };
+
+            // section 높이
+            const getParentPosY = (elementId) => {
+              const element = document.querySelector(`#${elementId}`);
+              let posY = element.offsetTop;
+
+              if (element.offsetParent) posY += element.offsetParent.offsetTop;
+              posY += element.offsetHeight;
+
+              return posY;
+            };
+
+            // navigation toggled
+            const navToggled = () => {
+              let scrollY = getscrollY();
+
+              if (scrollY > 100) {
+                document.querySelector('#wrap').classList.add('intro_scroll');
+              } else {
+                document
+                  .querySelector('#wrap')
+                  .classList.remove('intro_scroll');
+              }
+
+              return scrollY;
+            };
+
+            // nav scrolled
+            const handleScroll = () => {
+              let scrollY = navToggled();
+              const navH = navElem.clientHeight;
+
+              if (scrollY < getParentPosY('benefit') - navH) {
+                selectNavigation('benefit');
+              } else if (scrollY < getParentPosY('save') - navH) {
+                selectNavigation('save');
+              } else if (scrollY < getParentPosY('digital') - navH) {
+                selectNavigation('digital');
+              } else if (scrollY < getParentPosY('family') - navH) {
+                selectNavigation('family');
+              } else if (scrollY < getParentPosY('life') - navH) {
+                selectNavigation('life');
+              } else if (scrollY < getParentPosY('trip') - navH) {
+                selectNavigation('trip');
+              } else if (scrollY < getParentPosY('card') - navH) {
+                selectNavigation('card');
+              } else {
+                selectNavigation('reaction');
+              }
+            };
+
+            // nav 활성화
+            const activate = (navId) => {
+              document
+                .querySelector(`#menu_${navId}`)
+                .setAttribute('aria-current', true);
+            };
+
+            // nav 비활성화
+            const inactivate = () => {
+              navLinkElem.forEach((el) => {
+                el.removeAttribute('aria-current');
+              });
+            };
+
+            // nav 위치찾기
+            const selectNavigation = (navId) => {
+              inactivate();
+              activate(navId);
+
+              document.getElementById('menu_' + navId).scrollIntoView();
+            };
+
+            // 해당 section 이동
+            const scrollToElement = (elID) => {
+              window.scrollTo({
+                top:
+                  document.querySelector(`#${elID}`).offsetTop -
+                  navElem.clientHeight,
+                left: 0,
+                behavior: 'smooth',
+              });
+            };
+
+            // 이벤트 리스너
+            navLinkElem.forEach((el) => {
+              el.addEventListener('click', (e) => {
+                const menuId = el.getAttribute('id');
+                const hash = menuId.split('_');
+                scrollToElement(hash[1]);
+                e.preventDefault();
+              });
+            });
+
+            window.addEventListener('load', () => {
+              window.addEventListener('scroll', () =>
+                throttle(handleScroll, 10)
+              );
+            });
+          })();
+        </script>
+      </div>
+
+      <footer>footer</footer>
+    </div>
+  </body>
+</html>

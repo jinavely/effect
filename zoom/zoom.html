@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>zoom</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: rgba(202, 223, 247);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+      .image {
+        position: relative;
+        width: 400px;
+        height: 529px;
+        overflow: hidden;
+        border: 5px solid #fff;
+        box-shadow: -1px 5px 15px #000;
+      }
+      .image img {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        transform: scale(var(--zoom, 1));
+        transform-origin: var(--x) var(--y);
+        transition: transform 0.3s ease;
+      }
+      .image:hover {
+        --zoom: 3;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="image">
+      <img src="images/people.jpg" alt="사진" />
+    </div>
+
+    <script>
+      document.querySelectorAll('.image').forEach((elem) => {
+        let x, y, width, height;
+
+        elem.addEventListener('mouseenter', () => {
+          const size = elem.getBoundingClientRect();
+
+          x = size.x;
+          y = size.y;
+          width = size.width;
+          height = size.height;
+        });
+
+        elem.addEventListener('mousemove', (e) => {
+          let horizontal = ((e.clientX - x) / width) * 100;
+          let vertical = ((e.clientY - y) / height) * 100;
+
+          elem.style.setProperty('--x', `${horizontal}%`);
+          elem.style.setProperty('--y', `${vertical}%`);
+        });
+      });
+    </script>
+  </body>
+</html>
