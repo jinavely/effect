@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@container</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .card-container {
+        contain: style layout inline-size;
+        width: 50%;
+        border: 1px solid red;
+        padding: 20px;
+        transition: 1s;
+      }
+      h4 {
+        font-size: 30px;
+      }
+
+      @container (max-width: 500px) {
+        h4 {
+          font-size: 15px;
+          color: gray;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 크로스 브라우징 필요 -->
+    <div class="card-container">
+      <div class="card">
+        <h4>카드 제목임</h4>
+      </div>
+    </div>
+  </body>
+</html>

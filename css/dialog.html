@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dialog</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+    </style>
+  </head>
+  <body>
+    <dialog id="favDialog" modal-mode="mini">
+      <form method="dialog">
+        <p>
+          <label
+            >Favorite animal:
+            <select>
+              <option value="default">Choose…</option>
+              <option>Brine shrimp</option>
+              <option>Red panda</option>
+              <option>Spider monkey</option>
+            </select>
+          </label>
+        </p>
+        <div>
+          <button value="cancel">Cancel</button>
+          <button id="confirmBtn" value="default">Confirm</button>
+        </div>
+      </form>
+    </dialog>
+    <p>
+      <button id="showDialog">Show the dialog</button>
+    </p>
+    <output></output>
+
+    <script>
+      const showButton = document.getElementById('showDialog');
+      const favDialog = document.getElementById('favDialog');
+      const outputBox = document.querySelector('output');
+      const selectEl = favDialog.querySelector('select');
+      const confirmBtn = favDialog.querySelector('#confirmBtn');
+
+      // "Update details" button opens the <dialog> modally
+      showButton.addEventListener('click', () => {
+        favDialog.showModal();
+      });
+      // "Favorite animal" input sets the value of the submit button
+      selectEl.addEventListener('change', (e) => {
+        confirmBtn.value = selectEl.value;
+      });
+      // "Confirm" button of form triggers "close" on dialog because of [method="dialog"]
+      favDialog.addEventListener('close', () => {
+        outputBox.value = `ReturnValue: ${favDialog.returnValue}.`;
+      });
+    </script>
+  </body>
+</html>
