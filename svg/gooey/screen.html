@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SVG</title>
+  <style>
+    @font-face {
+      font-family: 'GmarketSansMedium';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      background: #708fd4;
+      display: flex;
+      height: 100%;
+      margin: 0;
+      width: 100%;
+    }
+    
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0" height="0">
+            <defs>
+            <filter id="goo">
+                <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12" />
+                <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="joint" />
+            </filter>
+            </defs>
+        </svg>
+
+  <script>
+  (() => {
+    
+    
+  })();
+  </script>
+</body>
+</html>

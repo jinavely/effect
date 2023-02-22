@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>SVG</title>
+  <style>
+    @font-face {
+      font-family: 'GmarketSansMedium';
+      src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    body {
+      background: #2c2a41;
+      display: flex;
+      height: 100%;
+      margin: 0;
+      width: 100%;
+      font-family: 'GmarketSansMedium';
+    }
+    .filter {
+        position: absolute;
+        left: -9999px;
+    }
+
+    .controls {
+      position: relative;
+      margin: 500px 0 0 500px;
+    }
+    .controls .sns {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .controls .sns > div {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100px;
+      height: 100px;
+      border: none;
+      border-radius: 50%;
+      color: #000;
+      background: #fff;
+      transition: 0.3s ease-in-out;
+      filter: url('#gooeyness');
+    }
+    .controls .sns > div:nth-child(1) {transition-delay: 0.3s; z-index: 1;}
+    .controls .sns.active > div:nth-child(1) {
+      width: 150px;
+      height: 150px;
+      left: -25px;
+      bottom: 0;
+      transition-delay: 0s;
+    }
+    .controls .sns > div:nth-child(2) {transition-delay: 0.2s;}
+    .controls .sns.active > div:nth-child(2) {
+      width: 100px;
+      height: 100px;
+      left: -100px;
+      bottom: 80px;
+      transition-delay: 0.1s;
+    }
+    .controls .sns > div:nth-child(3) {transition-delay: 0.1s;}
+    .controls .sns.active > div:nth-child(3) {
+      width: 120px;
+      height: 120px;
+      left: -100px;
+      bottom: -50px;
+      transition-delay: 0.2s;
+    }
+    .controls .sns > div:nth-child(4) {transition-delay: 0s;}
+    .controls .sns.active > div:nth-child(4) {
+      left: 80px;
+      bottom: 100px;
+      transition-delay: 0.3s;
+    }
+    .controls .button {
+      position: absolute;
+      top: 100px;
+      font-family: 'GmarketSansMedium';
+      width:100px;
+      height: 100px;
+      cursor: pointer;
+      border: none;
+      border-radius: 50%;
+      color: #000;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="0" height="0">
+    <defs>
+    <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12" />
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="joint" />
+    </filter>
+    </defs>
+</svg>
+  
+  <div class="controls">
+    <div class="sns">
+      <div>페이스북</div>
+      <div>카카오</div>
+      <div>트위터</div>
+      <div>인스타그램</div>
+    </div>
+    <button type="button" class="button">SNS</button>
+  </div>
+  
+
+  <script>
+  (() => {
+    let sns = document.querySelector('.sns');
+    let button = document.querySelector('.button');
+    
+    button.addEventListener('click', function(e) {
+      sns.classList.toggle('active');
+    });
+  })();
+  </script>
+</body>
+</html>
